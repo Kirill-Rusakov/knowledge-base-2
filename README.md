@@ -38,12 +38,12 @@ git clone https://github.com/Kirill-Rusakov/knowledge-base-2.git
 
 2.Ensure write permissions for data/ directory:
 ```bash
-chmod 755 deal-contact-manager/data
+chmod 755 knowledge-base-2/data
 ```
 
 3.Start PHP server:
 ```bash
-cd deal-contact-manager && php -S localhost:8000
+cd knowledge-base-2 && php -S localhost:8000
 ```
 
 4.Open in browser:
