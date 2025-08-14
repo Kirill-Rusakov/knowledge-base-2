@@ -27,7 +27,7 @@ knowledge-base-2
 ├── assets/
 │ └── style.css # Responsive styling
 └── data/ # Auto-generated storage
-└── data.json # JSON database
+  └── data.json # JSON database
 ```
 
 ## Installation
