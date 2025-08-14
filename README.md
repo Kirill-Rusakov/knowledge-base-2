@@ -33,7 +33,7 @@ knowledge-base-2
 ## Installation
 1. Clone repository:
 ```bash
-git clone https://github.com/yourusername/deal-contact-manager.git
+git clone https://github.com/Kirill-Rusakov/knowledge-base-2.git
 ```
 
 2.Ensure write permissions for data/ directory:
