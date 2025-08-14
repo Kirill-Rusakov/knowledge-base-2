@@ -10,25 +10,31 @@ $action = $_GET['action'] ?? null;
 $entityType = $_GET['entity'] ?? null;
 $id = $_GET['id'] ?? null;
 
-if ($action && $entityType && in_array($action, ['edit', 'delete', 'add'])) {
+if ($action && $entityType && in_array($action, ['edit', 'delete', 'add'])) 
+{
     handleAction($action, $entityType, $id, $db);
 }
 
 function handleAction($action, $entityType, $id, $db) 
 {
-    if ($action === 'delete') {
-        if ($entityType === 'deal') {
+    if ($action === 'delete') 
+    {
+        if ($entityType === 'deal') 
+        {
             $db->deleteDeal($id);
-        } elseif ($entityType === 'contact') {
+        } elseif ($entityType === 'contact') 
+        {
             $db->deleteContact($id);
         }
         header('Location: index.php');
         exit;
-    } elseif ($action === 'edit' || $action === 'add') {
+    } elseif ($action === 'edit' || $action === 'add') 
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = $_POST;
             
-            if ($entityType === 'deal') {
+            if ($entityType === 'deal') 
+            {
                 $contacts = isset($data['contacts']) ? array_map('intval', $data['contacts']) : [];
                 $dealData = [
                     'id' => $action === 'edit' ? (int)$id : null,
@@ -38,7 +44,8 @@ function handleAction($action, $entityType, $id, $db)
                 ];
                 
                 $db->saveDeal($dealData);
-            } elseif ($entityType === 'contact') {
+            } elseif ($entityType === 'contact') 
+            {
                 $deals = isset($data['deals']) ? array_map('intval', $data['deals']) : [];
                 $contactData = [
                     'id' => $action === 'edit' ? (int)$id : null,
@@ -63,39 +70,46 @@ $deals = $db->getDeals();
 $contacts = $db->getContacts();
 
 $dealObjects = [];
-foreach ($deals as $deal) {
+foreach ($deals as $deal) 
+{
     $dealObjects[] = new Deal($deal['id'], $deal['name'], $deal['amount'], $deal['contacts']);
 }
 
 $contactObjects = [];
-foreach ($contacts as $contact) {
+foreach ($contacts as $contact) 
+{
     $contactObjects[] = new Contact($contact['id'], $contact['first_name'], $contact['last_name'], $contact['deals']);
 }
 
 $selectedEntity = null;
 if ($selectedId) {
-    if ($selectedType === 'deal') {
+    if ($selectedType === 'deal') 
+    {
         $deal = $db->getDeal($selectedId);
-        if ($deal) {
+        if ($deal) 
+        {
             $selectedEntity = new Deal($deal['id'], $deal['name'], $deal['amount'], $deal['contacts']);
         }
-    } else {
+    } else 
+    {
         $contact = $db->getContact($selectedId);
-        if ($contact) {
+        if ($contact) 
+        {
             $selectedEntity = new Contact($contact['id'], $contact['first_name'], $contact['last_name'], $contact['deals']);
         }
     }
 }
 
-if (!$selectedEntity && $selectedType === 'deal' && !empty($dealObjects)) {
+if (!$selectedEntity && $selectedType === 'deal' && !empty($dealObjects)) 
+{
     $selectedEntity = $dealObjects[0];
     $selectedId = $selectedEntity->getId();
-} elseif (!$selectedEntity && $selectedType === 'contact' && !empty($contactObjects)) {
+} elseif (!$selectedEntity && $selectedType === 'contact' && !empty($contactObjects))
+{
     $selectedEntity = $contactObjects[0];
     $selectedId = $selectedEntity->getId();
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -106,7 +120,6 @@ if (!$selectedEntity && $selectedType === 'deal' && !empty($dealObjects)) {
 <body>
     <div class="container">
         <h1>Управление сделками и контактами</h1>
-        
         <div class="entity-manager">
             <div class="column menu-column">
                 <h2>Меню</h2>
@@ -123,7 +136,6 @@ if (!$selectedEntity && $selectedType === 'deal' && !empty($dealObjects)) {
                     <a href="?action=add&entity=<?= $selectedType ?>" class="button">Добавить <?= $selectedType === 'deal' ? 'сделку' : 'контакт' ?></a>
                 </div>
             </div>
-            
             <div class="column list-column">
                 <h2>Список</h2>
                 <ul>
@@ -154,7 +166,6 @@ if (!$selectedEntity && $selectedType === 'deal' && !empty($dealObjects)) {
                     <?php endif; ?>
                 </ul>
             </div>
-            
             <div class="column content-column">
                 <h2>Содержимое</h2>
                 <div class="content">
@@ -215,8 +226,6 @@ if (!$selectedEntity && $selectedType === 'deal' && !empty($dealObjects)) {
             </div>
         </div>
     </div>
-    
-    <!-- Модальное окно для редактирования/добавления -->
     <?php if ($action === 'edit' || $action === 'add'): ?>
         <div class="modal-overlay">
             <div class="modal">
@@ -264,7 +273,6 @@ if (!$selectedEntity && $selectedType === 'deal' && !empty($dealObjects)) {
                             <?php endforeach; ?>
                         </div>
                     <?php endif; ?>
-                    
                     <div class="form-actions">
                         <button type="submit" class="button">Сохранить</button>
                         <a href="index.php" class="button cancel">Отмена</a>
